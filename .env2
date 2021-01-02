@@ -1,0 +1,12 @@
+USER_NAME=student
+PASSWD=javaedu2021
+APP_IMAGE=course
+APP_DOCKER_NETWORK=course-net
+APP_DOCKER_VOLUME=course-dataa
+CADDY_IMAGE=course-caddy
+
+APP=course-app2
+APP_WEB=course-web2
+NGROK=course-ngrok2
+APP_PORT=8082
+NGROK_PORT=4042

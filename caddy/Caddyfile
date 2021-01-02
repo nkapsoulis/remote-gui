@@ -4,7 +4,7 @@
 :8080 {
 	log
 	root * /data
-	reverse_proxy sublime-app:8080
+	reverse_proxy {env.APP_CONTAINER_NAME}:8080
 
 	handle_path /files/* {
 		file_server browse
