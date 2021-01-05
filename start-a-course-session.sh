@@ -42,3 +42,4 @@ URL="http://$(docker port $NGROK 4040)/api/tunnels"
 sleep 1
 URLS=$(curl $URL | grep -Po '"public_url":.*?[^\\]",')
 printf "${GREEN}""${URLS}""${RESET}" | grep https
+printf "${RESET}"
