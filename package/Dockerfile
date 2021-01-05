@@ -17,9 +17,12 @@ ENV JAVA_VERSION=1.7.0_221
 RUN apt-get update -y && \
 	apt-get install -y --no-install-recommends lxterminal nano wget openssh-client rsync ca-certificates p11-kit xdg-utils htop tar xzip gzip bzip2 zip unzip
 RUN	wget -O - https://download.sublimetext.com/sublime-text_build-3211_amd64.deb > /home/subl.deb && \
+	wget -O - http://ftp.br.debian.org/debian/pool/main/x/xournal/xournal_0.4.8.2016-7_amd64.deb > /home/xournal.deb && \
 	dpkg -i /home/subl.deb && \
+	dpkg -i /home/xournal.deb || true && \
 	apt-get -y -f install && \
-	rm -rf /home/subl.deb && \
+	dpkg -i /home/xournal.deb && \
+	rm -rf /home/subl.deb /home/xournal.deb && \
 	rm -rf /var/lib/apt/lists
 
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/

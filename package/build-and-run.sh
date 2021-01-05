@@ -3,7 +3,7 @@
 # source ../.env
 
 # docker rm -f sublime-app sublime-web
-# docker build -t $APP_IMAGE .
+# docker build -t $APP_IMAGE package/.
 # docker network create sublime-net
 # docker volume create sublime-data
 # docker volume create sublime-dataa
