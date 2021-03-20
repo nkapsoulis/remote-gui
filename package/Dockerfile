@@ -5,25 +5,28 @@ RUN go mod init build && \
 	go build -o /bin/easy-novnc github.com/geek1011/easy-novnc
 
 FROM debian:buster
-COPY --from=openjdk:7 /usr/lib/jvm/java-7-openjdk-amd64/ /usr/local/java
-RUN apt-get update -y && \
+# ^^^debian or else noVNC clipboard isn't working
+RUN apt-get update && \
 	apt-get install -y --no-install-recommends openbox tigervnc-standalone-server supervisor gosu && \
 	rm -rf /var/lib/apt/lists && \
 	mkdir -p /usr/share/desktop-directories
-ENV JAVA_HOME=/usr/local/java
-ENV PATH=/usr/local/java/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ENV JAVA_VERSION=1.7.0_221
 
-RUN apt-get update -y && \
-	apt-get install -y --no-install-recommends lxterminal nano wget openssh-client rsync ca-certificates p11-kit xdg-utils htop tar xzip gzip bzip2 zip unzip
-RUN	wget -O - https://download.sublimetext.com/sublime-text_build-3211_amd64.deb > /home/subl.deb && \
-	wget -O - http://ftp.br.debian.org/debian/pool/main/x/xournal/xournal_0.4.8.2016-7_amd64.deb > /home/xournal.deb && \
+RUN apt-get update && apt-get install -y --no-install-recommends lxterminal nano wget openssh-client rsync \
+    ca-certificates p11-kit xdg-utils htop tar xzip gzip bzip2 zip unzip libxtst6 geany caja fakeroot && \
+	mkdir -p /usr/java && wget -O - \
+    https://download.java.net/java/GA/jdk15.0.2/0d1cfde4252546c6931946de8db48ee2/7/GPL/openjdk-15.0.2_linux-x64_bin.tar.gz \
+    > /usr/java/openjdk-15.tar.gz && \
+    tar xvf /usr/java/openjdk-15.tar.gz -C /usr/java && \
+    wget -O - https://download.sublimetext.com/sublime-text_build-3211_amd64.deb > /home/subl.deb && \
 	dpkg -i /home/subl.deb && \
-	dpkg -i /home/xournal.deb || true && \
-	apt-get -y -f install && \
-	dpkg -i /home/xournal.deb && \
-	rm -rf /home/subl.deb /home/xournal.deb && \
+	rm -rf /home/subl.deb /usr/java/openjdk-15.tar.gz && \
 	rm -rf /var/lib/apt/lists
+
+ENV JAVA_HOME=/usr/java/jdk-15.0.2
+ENV PATH=$PATH:$JAVA_HOME/bin
+ENV JAVA_VERSION=15.0.2
+
+#RUN apt-get update && apt-get install -y $NEW_SOFTWARE_NEW_SOFTWARE
 
 COPY --from=easy-novnc-build /bin/easy-novnc /usr/local/bin/
 COPY menu.xml /etc/xdg/openbox/
@@ -34,5 +37,9 @@ RUN groupadd --gid 1000 app && \
 	useradd --home-dir /data --shell /bin/bash --uid 1000 --gid 1000 app && \
 	mkdir -p /data
 VOLUME /data
+
+# Configuration for the user 'app'
+COPY geany-pref.sh /usr/bin/geany-pref.sh
+RUN chmod +x /usr/bin/geany-pref.sh
 
 CMD ["sh", "-c", "chown app:app /data /dev/stdout && exec gosu app supervisord"]

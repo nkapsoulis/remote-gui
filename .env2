@@ -1,10 +1,10 @@
 USER_NAME=student
 PASSWD=javaedu2021
-APP_IMAGE=course
-APP_DOCKER_NETWORK=course-net
-APP_DOCKER_VOLUME=course-dataa
 CADDY_IMAGE=course-caddy
+APP_DOCKER_NETWORK=course-net
+APP_IMAGE=course
 
+APP_DOCKER_VOLUME=course-dataa
 APP=course-app2
 APP_WEB=course-web2
 NGROK=course-ngrok2

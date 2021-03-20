@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openbox_menu xmlns="http://openbox.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://openbox.org/ file:///usr/share/openbox/menu.xsd">
 	<menu id="root-menu" label="Openbox 3">
-		<item label="EDITOR">
+		<item label="SUBLIME">
 			<action name="Execute">
 				<execute>/usr/bin/subl</execute>
 			</action>
@@ -11,10 +11,20 @@
 				<execute>/usr/bin/x-terminal-emulator</execute>
 			</action>
 		</item>
-		<item label="WHITEBOARD">
+		<item label="GEANY">
 			<action name="Execute">
-				<execute>/usr/bin/xournal</execute>
+				<execute>/usr/bin/geany</execute>
 			</action>
 		</item>
+		<item label="FILE MANAGER">
+			<action name="Execute">
+				<execute>/usr/bin/caja</execute>
+			</action>
+		</item>
+<!--		<item label="WHITEBOARD">-->
+<!--			<action name="Execute">-->
+<!--				<execute>/usr/bin/xournal</execute>-->
+<!--			</action>-->
+<!--		</item>-->
 	</menu>
 </openbox_menu>
